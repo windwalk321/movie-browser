@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Home page</h1>
+    <font-awesome-icon :icon="['fas', 'spinner']" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+
+  methods: {
+    getMoviesData () {
+      const tmdbKey = '0b4539da1961c9e4d049f757c9b5e940'
+      const baseURL = 'https://api.themoviedb.org/3'
+
+      this.$http
+        .get(`${baseURL}/movie/popular?api_key=${tmdbKey}`)
+        .then((response) => {
+          console.log(response.data)
+        })
+    }
+  },
+
+  created: function () {
+    this.getMoviesData()
   }
 }
 </script>
