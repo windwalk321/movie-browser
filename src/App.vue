@@ -28,7 +28,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding-top: 54px;
-  @media (max-width: 540px) {
+  @media (max-width: 576px) {
     padding-top: 50px;
   }
 }

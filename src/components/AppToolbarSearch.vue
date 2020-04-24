@@ -139,7 +139,7 @@ export default {
     right: 54px;
     left: 0;
   }
-  @media (max-width: 540px) {
+  @media (max-width: 576px) {
     right: 50px;
   }
   .overlay {
@@ -168,7 +168,7 @@ export default {
     @media (max-width: 768px) {
       width: 54px;
     }
-    @media (max-width: 540px) {
+    @media (max-width: 576px) {
       width: 50px;
     }
     &:hover {
@@ -193,7 +193,7 @@ export default {
       border: none;
       font-size: 22px;
       color: #565656;
-      @media (max-width: 540px) {
+      @media (max-width: 576px) {
         width: 50px;
       }
     }

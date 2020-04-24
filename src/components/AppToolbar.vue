@@ -91,7 +91,7 @@ export default {
   height: 54px;
   background-color: #151515;
   z-index: 1;
-  @media (max-width: 540px) {
+  @media (max-width: 576px) {
     height: 50px;
   }
   .mobile {
@@ -106,7 +106,7 @@ export default {
     padding: 0;
     list-style: none;
     background-color: #151515;
-    @media (max-width: 540px) {
+    @media (max-width: 576px) {
       top: 50px;
     }
     .mobile__item {
@@ -171,7 +171,7 @@ export default {
       @media (max-width: 992px) {
         display: block;
       }
-      @media (max-width: 540px) {
+      @media (max-width: 576px) {
         padding: 0 9px;
       }
       .hamburger {
@@ -275,7 +275,7 @@ export default {
       @media (max-width: 992px) {
         width: 54px;
       }
-      @media (max-width: 540px) {
+      @media (max-width: 576px) {
         width: 50px;
       }
       &__title {
