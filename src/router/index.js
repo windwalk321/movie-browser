@@ -25,6 +25,11 @@ const routes = [
   {
     path: '/now/:page(\\d+)?',
     component: createListView('now_playing', 'now')
+  },
+  {
+    path: '/movie/:id',
+    name: 'movie',
+    component: () => import('../views/Movie.vue')
   }
 ]
 
