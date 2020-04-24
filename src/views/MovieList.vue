@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="movies">
     <div class="movies">
       <movie-list-item
         v-for="movie in movies"
@@ -8,15 +8,18 @@
         :genres="genres"
       />
     </div>
+    <app-pagination :maxPage="maxPage" />
   </div>
 </template>
 
 <script>
 import MovieListItem from '../components/MovieListItem'
+import AppPagination from '../components/AppPagination'
 
 export default {
   components: {
-    MovieListItem
+    MovieListItem,
+    AppPagination
   },
 
   props: {
@@ -35,6 +38,10 @@ export default {
   computed: {
     movies () {
       return this.moviesData.results
+    },
+
+    maxPage () {
+      return this.moviesData.total_pages
     }
   },
 
