@@ -8,7 +8,7 @@
         v-model.trim="search"
         @keypress.enter="searchHandler"
       >
-      <button @click="searchHandler">Начать поиск</button>
+      <button @click="searchHandler">Start searching</button>
     </div>
     <ul class="search__items" v-if="results.length">
       <li
@@ -140,7 +140,7 @@ export default {
       font-size: .8rem;
       outline: none;
       padding: 0 30px;
-      min-width: 104px;
+      min-width: 110px;
       margin-left: 20px;
       transition: all .2s ease;
       cursor: pointer;
