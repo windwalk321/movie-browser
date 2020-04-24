@@ -5,12 +5,13 @@ import router from './router'
 import axios from 'axios'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faPlayCircle, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import 'normalize.css'
 
-library.add(faSpinner)
+library.add(faPlayCircle, faSearch, faTimes, faGithub)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

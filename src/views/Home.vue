@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <h1>Home page</h1>
-    <font-awesome-icon :icon="['fas', 'spinner']" />
   </div>
 </template>
 
