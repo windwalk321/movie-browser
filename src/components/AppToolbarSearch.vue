@@ -48,14 +48,19 @@
         </li>
       </ul>
       <button @click="replaceRoute({ name: 'search', params: { filter: search, page: 1 } })" class="button">
-        <span v-if="results.length">Смотреть больше</span>
-        <span v-else>Ничего не найдено</span>
+        <span v-if="results.length">Watch more</span>
+        <span v-else>Nothing found</span>
       </button>
     </div>
   </div>
 </template>
 
 <script>
+window.addEventListener('resize', () => { // set CSS variable --vh for fix vh bug on mobile devices
+  document.querySelector(':root').style
+    .setProperty('--vh', window.innerHeight / 100 + 'px')
+})
+
 export default {
   name: 'AppToolbarSearch',
 
@@ -253,12 +258,13 @@ export default {
       margin: 0;
       display: flex;
       flex-direction: column;
-      max-height: calc(100vh - 108px);
+      max-height: calc((100 * var(--vh)) - 108px);
       padding: 0 20px 0 20px;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       @media (max-width: 576px) {
         padding: 0 10px 0 10px;
+        max-height: calc((100 * var(--vh)) - 104px);
       }
       &__item {
         display: flex;
