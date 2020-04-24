@@ -143,7 +143,7 @@ export default {
   .mobile-overlay.active {
     visibility: visible;
     opacity: 1;
-    z-index: 2;
+    z-index: 6;
   }
   &__container {
     position: relative;
