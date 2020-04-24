@@ -86,7 +86,7 @@
       <span>Overview  "{{ movie.original_title }}"</span>
       <p>{{ movie.overview }}</p>
     </div>
-    <div class="movie__recommendations">
+    <div class="movie__recommendations" v-if="recommendationItems.length">
       <span>Recommendations</span>
       <div class="items">
         <movie-list-item
@@ -116,12 +116,15 @@ export default {
       genres: [],
       isLoaded: false,
       tmdbKey: '0b4539da1961c9e4d049f757c9b5e940',
-      baseURL: 'https://api.themoviedb.org/3',
-      movieId: this.$route.params.id
+      baseURL: 'https://api.themoviedb.org/3'
     }
   },
 
   computed: {
+    movieId () {
+      return this.$route.params.id
+    },
+
     genresStr () {
       return this.movie.genres.map(item => item.name).join(', ')
     },
