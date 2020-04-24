@@ -90,6 +90,7 @@ export default {
   width: 100%;
   height: 54px;
   background-color: #151515;
+  z-index: 1;
   @media (max-width: 540px) {
     height: 50px;
   }

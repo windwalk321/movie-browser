@@ -14,6 +14,15 @@ export default {
 </script>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: rgb(60,10,94);
+  background: linear-gradient(90deg, rgba(60,10,94,1) 0%, rgba(11,13,14,1) 50%, rgba(60,10,94,1) 100%);
+}
+
 #app {
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,9 +31,5 @@ export default {
   @media (max-width: 540px) {
     padding-top: 50px;
   }
-}
-
-* {
-  box-sizing: border-box;
 }
 </style>
