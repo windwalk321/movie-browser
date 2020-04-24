@@ -30,10 +30,16 @@ const routes = [
     path: '/movie/:id',
     name: 'movie',
     component: () => import('../views/Movie.vue')
+  },
+  {
+    path: '/search/:filter/:page(\\d+)?',
+    name: 'search',
+    component: () => import('../views/Search.vue')
   }
 ]
 
 const router = new VueRouter({
+  scrollBehavior: () => ({ y: 0 }),
   mode: 'history',
   routes
 })
