@@ -56,9 +56,10 @@
 </template>
 
 <script>
-window.addEventListener('resize', () => { // set CSS variable --vh for fix vh bug on mobile devices
-  document.querySelector(':root').style
-    .setProperty('--vh', window.innerHeight / 100 + 'px')
+// fix vh bug on mobile devices
+window.addEventListener('resize', () => {
+  const vh = window.innerHeight * 0.01
+  document.documentElement.style.setProperty('--vh', `${vh}px`)
 })
 
 export default {
@@ -258,13 +259,13 @@ export default {
       margin: 0;
       display: flex;
       flex-direction: column;
-      max-height: calc((100 * var(--vh)) - 108px);
+      height: calc((var(--vh, 1vh) * 100) - 108px);
       padding: 0 20px 0 20px;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
       @media (max-width: 576px) {
         padding: 0 10px 0 10px;
-        max-height: calc((100 * var(--vh)) - 104px);
+        height: calc((var(--vh, 1vh) * 100) - 104px);
       }
       &__item {
         display: flex;
