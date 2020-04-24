@@ -104,7 +104,7 @@ export default {
 
     async replaceRoute (route) {
       await this.$router.replace(route).catch(error => console.info(error))
-      this.isVisible = false
+      this.isResponse = false
       this.isFocused = false
       this.search = ''
     },
