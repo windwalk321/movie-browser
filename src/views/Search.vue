@@ -1,42 +1,47 @@
 <template>
   <div class="search">
-    <span class="search__title">Searching results</span>
-    <div class="search__input">
-      <input
-        type="text"
-        placeholder="Search..."
-        v-model.trim="search"
-        @keypress.enter="searchHandler"
-      >
-      <button @click="searchHandler">Start searching</button>
-    </div>
-    <ul class="search__items" v-if="results.length">
-      <li
-        class="search__item"
-        v-for="item in results"
-        :key="item.id"
-      >
-        <img
-          v-if="item.poster_path"
-          :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`"
-          class="poster"
+    <div class="search__content" v-if="isLoaded">
+      <span class="search__title">Searching results</span>
+      <div class="search__input">
+        <input
+          type="text"
+          placeholder="Search..."
+          v-model.trim="search"
+          @keypress.enter="searchHandler"
         >
-        <img v-else src="../assets/empty-poster.png" class="poster">
-        <div class="info">
-          <router-link
-            tag="span"
-            :to="{ name: 'movie', params: { id: item.id } }"
-            class="info__title"
+        <button @click="searchHandler">Start searching</button>
+      </div>
+      <ul class="search__items" v-if="results.length">
+        <li
+          class="search__item"
+          v-for="item in results"
+          :key="item.id"
+        >
+          <img
+            v-if="item.poster_path"
+            :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`"
+            class="poster"
           >
-            {{ item.original_title }}
-          </router-link>
-          <span class="info__release">{{ item.release_date }}</span>
-          <span class="info__rating">IMDb: {{ item.vote_average }}</span>
-          <p class="info__description">{{ item.overview }}</p>
-        </div>
-      </li>
-    </ul>
-    <app-pagination v-if="maxPage > 1" :maxPage="maxPage" />
+          <img v-else src="../assets/empty-poster.png" class="poster">
+          <div class="info">
+            <router-link
+              tag="span"
+              :to="{ name: 'movie', params: { id: item.id } }"
+              class="info__title"
+            >
+              {{ item.original_title }}
+            </router-link>
+            <span class="info__release">{{ item.release_date }}</span>
+            <span class="info__rating">IMDb: {{ item.vote_average }}</span>
+            <p class="info__description">{{ item.overview }}</p>
+          </div>
+        </li>
+      </ul>
+      <app-pagination v-if="maxPage > 1" :maxPage="maxPage" />
+    </div>
+    <div v-else class="spinner">
+      <font-awesome-icon :icon="['fas', 'spinner']" size="3x" spin />
+    </div>
   </div>
 </template>
 
@@ -52,6 +57,7 @@ export default {
 
   data: function () {
     return {
+      isLoaded: false,
       search: '',
       searchData: {}
     }
@@ -70,7 +76,7 @@ export default {
   methods: {
     searchHandler () {
       if (this.search.length >= 3) {
-        this.$router.replace({ name: 'search', params: { filter: this.search, page: 1 } })
+        this.$router.replace({ name: 'search', params: { filter: this.search, page: 1 } }).catch(error => console.info(error))
       }
     },
 
@@ -80,27 +86,33 @@ export default {
       const page = this.$route.params.page
       const filter = this.$route.params.filter
 
-      this.$http
+      return this.$http
         .get(`${baseURL}/search/movie?api_key=${tmdbKey}&query=${filter}&page=${page}`)
         .then(response => {
           this.searchData = response.data
         })
+        .catch(error => console.log(error))
     }
   },
 
   created: async function () {
     await this.getSearchData()
     this.search = this.$route.params.filter
+    this.isLoaded = true
   },
 
   watch: {
-    $route: 'getSearchData'
+    $route: async function () {
+      this.isLoaded = false
+      await this.getSearchData()
+      this.isLoaded = true
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.search {
+.search__content {
   background-color: #1D1D1D;
   position: relative;
   padding: 10px 30px 50px 30px;
@@ -109,13 +121,13 @@ export default {
   @media (max-width: 992px) {
     padding: 10px 10px 48px 10px;
   }
-  &__title {
+  .search__title {
     font-size: 1.8rem;
     line-height: 2.4rem;
     color: #e7e7e7;
     font-weight: 500;
   }
-  &__input {
+  .search__input {
     margin: 20px 0 30px 0;
     display: flex;
     input {
@@ -154,13 +166,13 @@ export default {
       }
     }
   }
-  &__items {
+  .search__items {
     margin: 0;
     display: flex;
     flex-direction: column;
     padding: 0;
   }
-  &__item {
+  .search__item {
     display: flex;
     border-top: 1px solid #565656;
     padding: 20px 0;
@@ -203,5 +215,12 @@ export default {
       }
     }
   }
+}
+.spinner {
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
 }
 </style>
