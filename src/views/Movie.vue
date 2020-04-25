@@ -154,27 +154,33 @@ export default {
 
   methods: {
     getMovieData () {
-      this.$http
+      return this.$http
         .get(`${this.baseURL}/movie/${this.movieId}?api_key=${this.tmdbKey}`)
         .then(response => {
           this.movie = response.data
+          console.log('1')
         })
+        .catch(error => console.log(error))
     },
 
     getMovieRecommendations () {
-      this.$http
+      return this.$http
         .get(`${this.baseURL}/movie/${this.movieId}/recommendations?api_key=${this.tmdbKey}`)
         .then(response => {
           this.recommendations = response.data
+          console.log('2')
         })
+        .catch(error => console.log(error))
     },
 
     getGenres () {
-      this.$http
+      return this.$http
         .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${this.tmdbKey}`)
         .then(response => {
           this.genres = response.data.genres
+          console.log('3')
         })
+        .catch(error => console.log(error))
     }
   },
 
@@ -186,7 +192,13 @@ export default {
   },
 
   watch: {
-    $route: 'getMovieData'
+    $route: async function () {
+      this.isLoaded = false
+      await this.getMovieData()
+      await this.getGenres()
+      await this.getMovieRecommendations()
+      this.isLoaded = true
+    }
   }
 }
 </script>
