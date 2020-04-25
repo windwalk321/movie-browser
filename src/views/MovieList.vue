@@ -1,14 +1,19 @@
 <template>
-  <div class="container" v-if="isLoaded">
-    <div class="movies">
-      <movie-list-item
-        v-for="movie in movies"
-        :key="movie.id"
-        :movie="movie"
-        :genres="genres"
-      />
+  <div class="movie-list">
+    <div class="movie-list__content" v-if="isLoaded">
+      <div class="movies">
+        <movie-list-item
+          v-for="movie in movies"
+          :key="movie.id"
+          :movie="movie"
+          :genres="genres"
+        />
+      </div>
+      <app-pagination :maxPage="maxPage" />
     </div>
-    <app-pagination :maxPage="maxPage" />
+    <div v-else class="spinner">
+      <font-awesome-icon :icon="['fas', 'spinner']" size="3x" spin />
+    </div>
   </div>
 </template>
 
@@ -85,7 +90,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.movie-list__content {
   position: relative;
   padding: 10px 10px 48px 10px;
   max-width: 1200px;
@@ -101,5 +106,11 @@ export default {
       align-items: center;
     }
   }
+}
+.spinner {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 </style>

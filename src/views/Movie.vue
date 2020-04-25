@@ -1,101 +1,106 @@
 <template>
-  <div v-if="isLoaded" class="movie">
-    <div class="movie__info">
-      <img
-        v-if="movie.poster_path"
-        :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"
-        class="poster"
-      >
-      <img v-else src="../assets/empty-poster.png" class="poster">
-      <ul class="description">
-        <li>
-          <span class="label">
-            Original title:
-          </span>
-          <span class="text">
-            {{ movie.original_title }}
-          </span>
-        </li>
-        <li v-if="movie.tagline">
-          <span class="label">
-            Tagline:
-          </span>
-          <span class="text">
-            {{ movie.tagline }}
-          </span>
-        </li>
-        <li>
-          <span class="label">
-            Rating IMDb:
-          </span>
-          <span class="text">
-            {{ movie.vote_average }}
-          </span>
-        </li>
-        <li v-if="movie.genres">
-          <span class="label">
-            Genres:
-          </span>
-          <span class="text">
-            {{ genresStr }}
-          </span>
-        </li>
-        <li>
-          <span class="label">
-            Release date:
-          </span>
-          <span class="text">
-            {{ movie.release_date }}
-          </span>
-        </li>
-        <li>
-          <span class="label">
-            Duration:
-          </span>
-          <span class="text">
-            {{ durationStr }}
-          </span>
-        </li>
-        <li v-if="movie.budget">
-          <span class="label">
-            Budget:
-          </span>
-          <span class="text">
-            {{ budgetStr }} $
-          </span>
-        </li>
-        <li>
-          <span class="label">
-            Status:
-          </span>
-          <span class="text">
-            {{ movie.status }}
-          </span>
-        </li>
-        <li v-if="movie.production_countries">
-          <span class="label">
-            Production:
-          </span>
-          <span class="text">
-            {{ productionStr }}
-          </span>
-        </li>
-      </ul>
-    </div>
-    <div class="movie__overview">
-      <span>Overview  "{{ movie.original_title }}"</span>
-      <p>{{ movie.overview }}</p>
-    </div>
-    <div class="movie__recommendations" v-if="recommendationItems.length">
-      <span>Recommendations</span>
-      <div class="items">
-        <movie-list-item
-          v-for="movie in recommendationItems"
-          :key="movie.id"
-          :movie="movie"
-          :genres="genres"
-        />
+  <div class="movie">
+    <div v-if="isLoaded" class="movie__content">
+      <div class="info">
+        <img
+          v-if="movie.poster_path"
+          :src="`https://image.tmdb.org/t/p/w500/${movie.poster_path}`"
+          class="poster"
+        >
+        <img v-else src="../assets/empty-poster.png" class="poster">
+        <ul class="description">
+          <li>
+            <span class="label">
+              Original title:
+            </span>
+            <span class="text">
+              {{ movie.original_title }}
+            </span>
+          </li>
+          <li v-if="movie.tagline">
+            <span class="label">
+              Tagline:
+            </span>
+            <span class="text">
+              {{ movie.tagline }}
+            </span>
+          </li>
+          <li>
+            <span class="label">
+              Rating IMDb:
+            </span>
+            <span class="text">
+              {{ movie.vote_average }}
+            </span>
+          </li>
+          <li v-if="movie.genres">
+            <span class="label">
+              Genres:
+            </span>
+            <span class="text">
+              {{ genresStr }}
+            </span>
+          </li>
+          <li>
+            <span class="label">
+              Release date:
+            </span>
+            <span class="text">
+              {{ movie.release_date }}
+            </span>
+          </li>
+          <li>
+            <span class="label">
+              Duration:
+            </span>
+            <span class="text">
+              {{ durationStr }}
+            </span>
+          </li>
+          <li v-if="movie.budget">
+            <span class="label">
+              Budget:
+            </span>
+            <span class="text">
+              {{ budgetStr }} $
+            </span>
+          </li>
+          <li>
+            <span class="label">
+              Status:
+            </span>
+            <span class="text">
+              {{ movie.status }}
+            </span>
+          </li>
+          <li v-if="movie.production_countries">
+            <span class="label">
+              Production:
+            </span>
+            <span class="text">
+              {{ productionStr }}
+            </span>
+          </li>
+        </ul>
       </div>
+      <div class="overview">
+        <span>Overview  "{{ movie.original_title }}"</span>
+        <p>{{ movie.overview }}</p>
+      </div>
+      <div class="recommendations" v-if="recommendationItems.length">
+        <span>Recommendations</span>
+        <div class="items">
+          <movie-list-item
+            v-for="movie in recommendationItems"
+            :key="movie.id"
+            :movie="movie"
+            :genres="genres"
+          />
+        </div>
+      </div>
+    </div>
+    <div v-else class="spinner">
+      <font-awesome-icon :icon="['fas', 'spinner']" size="3x" spin />
     </div>
   </div>
 </template>
@@ -204,14 +209,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.movie {
+.movie__content {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 1200px;
   margin: 30px auto;
   background-color: #1D1D1D;
-  &__info {
+  .info {
     color: #dee2e6;
     display: flex;
     width: 100%;
@@ -248,7 +253,7 @@ export default {
       }
     }
   }
-  &__overview {
+  .overview {
     border-top: 1px solid #464747;
     padding: 10px 30px;
     width: 100%;
@@ -267,7 +272,7 @@ export default {
       color: #adadad;
     }
   }
-  &__recommendations {
+  .recommendations {
     margin-top: 10px;
     width: 100%;
     background-color: #fff;
@@ -295,5 +300,11 @@ export default {
       }
     }
   }
+}
+.spinner {
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 </style>
