@@ -15,6 +15,7 @@
         placeholder="Search"
         ref="search"
         v-model.trim="search"
+        @keypress.enter="searchHandler"
         @input="searchHandler"
         @click="isFocused = true"
       >
@@ -85,11 +86,12 @@ export default {
       const tmdbKey = '0b4539da1961c9e4d049f757c9b5e940'
       const baseURL = 'https://api.themoviedb.org/3'
 
-      this.$http
+      return this.$http
         .get(`${baseURL}/search/movie?api_key=${tmdbKey}&query=${this.search}`)
         .then(response => {
           this.searchData = response.data
         })
+        .catch(error => console.log(error))
     },
 
     removeFocus: function () {
@@ -260,10 +262,25 @@ export default {
       display: flex;
       flex-direction: column;
       height: calc((var(--vh, 1vh) * 100) - 108px);
+      margin-right: 20px;
       padding: 0 20px 0 20px;
       overflow-y: scroll;
       -webkit-overflow-scrolling: touch;
+      &::-webkit-scrollbar-track {
+        background-color: #828080;
+        margin: 20px 0;
+      }
+      &::-webkit-scrollbar {
+        width: 7px;
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: #000000;
+        border: 2px solid #828080;
+        height: 33.3%;
+      }
       @media (max-width: 576px) {
+        margin-right: 10px;
         padding: 0 10px 0 10px;
         height: calc((var(--vh, 1vh) * 100) - 104px);
       }
