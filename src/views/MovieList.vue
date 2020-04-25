@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-if="movies">
+  <div class="container" v-if="isLoaded">
     <div class="movies">
       <movie-list-item
         v-for="movie in movies"
@@ -28,6 +28,7 @@ export default {
 
   data: function () {
     return {
+      isLoaded: false,
       tmdbKey: '0b4539da1961c9e4d049f757c9b5e940',
       baseURL: 'https://api.themoviedb.org/3',
       moviesData: {},
@@ -49,29 +50,36 @@ export default {
     getMoviesData () {
       const page = this.$route.params.page
 
-      this.$http
+      return this.$http
         .get(`${this.baseURL}/movie/${this.type}?api_key=${this.tmdbKey}&page=${page}`)
         .then(response => {
           this.moviesData = response.data
         })
+        .catch(error => console.log(error))
     },
 
     getGenres () {
-      this.$http
+      return this.$http
         .get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${this.tmdbKey}`)
         .then(response => {
           this.genres = response.data.genres
         })
+        .catch(error => console.log(error))
     }
   },
 
   created: async function () {
     await this.getGenres()
-    this.getMoviesData()
+    await this.getMoviesData()
+    this.isLoaded = true
   },
 
   watch: {
-    $route: 'getMoviesData'
+    $route: async function () {
+      this.isLoaded = false
+      await this.getMoviesData()
+      this.isLoaded = true
+    }
   }
 }
 </script>
