@@ -82,7 +82,7 @@ export default {
   padding: 10px 10px 48px 10px;
   max-width: 1200px;
   margin: 30px auto;
-  padding: 0 30px;
+  padding: 0 30px 50px 30px;
   background-color: #fff;
   .movies {
     display: flex;
