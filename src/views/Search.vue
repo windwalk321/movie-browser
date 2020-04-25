@@ -103,7 +103,7 @@ export default {
 .search {
   background-color: #1D1D1D;
   position: relative;
-  padding: 10px 30px 48px 30px;
+  padding: 10px 30px 50px 30px;
   max-width: 1200px;
   margin: 30px auto;
   @media (max-width: 992px) {
@@ -163,7 +163,7 @@ export default {
   &__item {
     display: flex;
     border-top: 1px solid #565656;
-    padding-top: 20px;
+    padding: 20px 0;
     @media (max-width: 576px) {
       flex-direction: column;
     }
