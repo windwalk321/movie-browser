@@ -18,6 +18,10 @@ export default {
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   background: rgb(60,10,94);
   background: linear-gradient(90deg, rgba(60,10,94,1) 0%, rgba(11,13,14,1) 50%, rgba(60,10,94,1) 100%);
