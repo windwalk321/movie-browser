@@ -1,13 +1,18 @@
 <template>
   <div class="app-toolbar">
-    <ul :class="{ active: isMobileMenu }" class="mobile">
+    <ul
+      :class="{ active: isMobileMenu }"
+      class="mobile"
+    >
       <li
-        v-for="(item, index) in routeList"
+        v-for="(item, index) in mobileItems"
         :key="index"
+        :style="{ '--i': index }"
         class="mobile__item"
+        :class="{ active: isMobileMenu }"
         @click="isMobileMenu = false"
       >
-        <router-link class="mobile__link" :to="item.key">{{ item.title }}</router-link>
+        <router-link class="mobile__link" :to="item.key || { path: `/movie/${item.id}`}">{{ item.title }}</router-link>
       </li>
     </ul>
     <div class="mobile-overlay" @click="isMobileMenu = false" :class="{ active: isMobileMenu }"></div>
@@ -54,6 +59,7 @@ export default {
   data: function () {
     return {
       isMobileMenu: false,
+      popularMovies: [],
       routeList: [
         {
           title: 'Popular',
@@ -75,10 +81,33 @@ export default {
     }
   },
 
+  computed: {
+    mobileItems () {
+      return this.popularMovies.length > 0 ? [...this.routeList, ...this.popularMovies] : this.routeList
+    }
+  },
+
   methods: {
     toggleMobileMenu () {
       this.isMobileMenu = !this.isMobileMenu
+    },
+
+    getPopularMovies () {
+      const tmdbKey = '0b4539da1961c9e4d049f757c9b5e940'
+      const baseURL = 'https://api.themoviedb.org/3'
+
+      this.$http
+        .get(`${baseURL}/movie/popular?api_key=${tmdbKey}`)
+        .then(response => {
+          this.popularMovies = response.data.results.slice(0, 10)
+          console.log(this.popularMovies)
+        })
+        .catch(error => console.log(error))
     }
+  },
+
+  created: function () {
+    this.getPopularMovies()
   }
 }
 </script>
@@ -100,10 +129,11 @@ export default {
     width: 270px;
     left: -100%;
     top: 54px;
-    transition: all 0.4s ease;
+    transition: left 0.4s ease;
     height: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden;
     list-style: none;
     background-color: #151515;
     @media (max-width: 576px) {
@@ -111,25 +141,41 @@ export default {
     }
     .mobile__item {
       position: relative;
-      height: 36px;
-      border-top: 1px solid #565656;
-      &:last-child {
+      min-height: 47px;
+      border-bottom: 1px solid #565656;
+      opacity: 0;
+      transform: translate(50%);
+      transform: translate3d(50%, 0, 0);
+      transition: all .4s ease;
+      transition-delay: calc(.1s * var(--i));
+      &:first-child {
+        border-top: 1px solid #565656;
+      }
+      &:nth-child(4) {
         border-bottom: 1px solid #ff8b00;
       }
       .mobile__link {
         position: absolute;
         width: 100%;
-        display: flex;
-        align-items: center;
-        padding: 0 0 0 20px;
+        line-height: 47px;
+        padding: 0 20px 0 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         height: 100%;
         text-decoration: none;
         color: #ececec;
       }
     }
+    .mobile__item.active {
+      opacity: 1;
+      transform: translate(0);
+      transform: translateZ(0, 0, 0);
+    }
   }
   .mobile.active {
     left: 0;
+    overflow-y: scroll;
   }
   .mobile-overlay {
     background: rgba(0,0,0,.5);
