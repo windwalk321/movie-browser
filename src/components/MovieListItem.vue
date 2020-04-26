@@ -65,7 +65,7 @@ export default {
     width: calc(50% - 20px);
   }
   @media (max-width: 420px) {
-    width: 80%;
+    width: 90%;
   }
   &:hover {
     -webkit-transform: translateY(-6px);

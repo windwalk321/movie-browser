@@ -97,6 +97,9 @@ export default {
   margin: 30px auto;
   padding: 0 30px 50px 30px;
   background-color: #fff;
+  @media (max-width: 992px) {
+    padding: 0 10px 50px 10px;
+  }
   .movies {
     display: flex;
     flex-wrap: wrap;
