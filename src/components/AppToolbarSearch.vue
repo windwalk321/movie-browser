@@ -30,16 +30,16 @@
           v-for="item in results"
           :key="item.id"
         >
-          <img
-            v-if="item.poster_path"
-            :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`"
-            class="poster"
-          >
-          <img
-            v-else
-            src="../assets/empty-poster.png"
-            class="poster"
-          >
+          <div class="poster">
+            <img
+              v-if="item.poster_path"
+              :src="`https://image.tmdb.org/t/p/w500/${item.poster_path}`"
+            >
+            <img
+              v-else
+              src="../assets/empty-poster.png"
+            >
+          </div>
           <div class="info">
             <span @click="replaceRoute({ name: 'movie', params: { id: item.id }})" class="info__title">{{ item.original_title }}</span>
             <span class="info__release">{{ item.release_date }}</span>
@@ -259,12 +259,10 @@ export default {
     transition: top .15s ease-out;
     .movies {
       margin: 0;
-      display: flex;
-      flex-direction: column;
       height: calc((var(--vh, 1vh) * 100) - 108px);
       margin-right: 20px;
       padding: 0 20px 0 20px;
-      overflow-y: scroll;
+      overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       &::-webkit-scrollbar-track {
         background-color: #828080;
@@ -285,6 +283,7 @@ export default {
         height: calc((var(--vh, 1vh) * 100) - 104px);
       }
       &__item {
+        display: -webkit-flex;
         display: flex;
         border-bottom: 1px solid #565656;
         padding: 20px 0;
@@ -292,10 +291,13 @@ export default {
           flex-direction: column;
         }
         .poster {
-          max-width: 200px;
           align-self: start;
+          max-width: 200px;
           @media (max-width: 576px) {
             align-self: center;
+          }
+          img {
+            width: 100%;
           }
         }
         .info {
