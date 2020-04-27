@@ -292,12 +292,11 @@ export default {
         }
         .poster {
           align-self: start;
-          max-width: 200px;
           @media (max-width: 576px) {
             align-self: center;
           }
           img {
-            width: 100%;
+            width: 200px;
           }
         }
         .info {
