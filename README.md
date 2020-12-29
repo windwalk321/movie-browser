@@ -1,4 +1,4 @@
-It's app for movie browsing built using TMDB API. [Live demo](https://frosty-bhabha-74e436.netlify.app/).
+It's app for movie browsing built using TMDB API. [Live demo](https://admiring-wescoff-e023da.netlify.app/).
 
 ## Project setup
 ```
